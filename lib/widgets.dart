@@ -1,3 +1,4 @@
+import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 
 class TaskCardWidget extends StatelessWidget {
@@ -10,45 +11,65 @@ class TaskCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        vertical: 32.0,
-        horizontal: 24.0,
-      ),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       margin: EdgeInsets.only(
         bottom: 20.0,
       ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Color(0xFF272D34).withOpacity(0.6),
-          Color(0xFF272D34).withOpacity(0.6),
-        ], begin: Alignment(0.0, -1.0), end: Alignment(0.0, 1.0)),
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title ?? "(Unnamed Task)",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 10.0,
-            ),
-            child: Text(
-              desc ?? "No Description Added",
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white70,
-                height: 1.5,
+      // decoration: BoxDecoration(
+      //   gradient: LinearGradient(colors: [
+      //     Color(0xFF558EF9),
+      //     Color(0xFFFFFFFF).withOpacity(0.9),
+      //   ], begin: Alignment(0.0, -1.0), end: Alignment(0.0, 1.0)),
+      //   borderRadius: BorderRadius.circular(50.0),
+      // ),
+      child: ClayContainer(
+        emboss: false,
+        color: Colors.amber[200],
+        // customBorderRadius: BorderRadius.only(
+        //     topRight: Radius.elliptical(150, 150),
+        //     bottomLeft: Radius.circular(50)),
+        depth: 200,
+        spread: 5,
+        borderRadius: 20,
+        child: Container(
+          margin: const EdgeInsets.only(left: 20, top: 10, bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    title ?? "(Unnamed Task)",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Icon(
+                    Icons.edit,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                ],
               ),
-            ),
-          )
-        ],
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 10.0,
+                ),
+                child: Text(
+                  desc ?? "No Description Added",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                    height: 1.5,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

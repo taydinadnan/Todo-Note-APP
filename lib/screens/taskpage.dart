@@ -283,7 +283,38 @@ class _TaskpageState extends State<Taskpage> {
                     ),
                   ),
                 ),
-              )
+              ),
+              Visibility(
+                visible: _contentVisile,
+                child: Positioned(
+                  bottom: 100.0,
+                  right: 24.0,
+                  child: GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 60.0,
+                      height: 60.0,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF4AC8EA).withOpacity(0.5),
+                              Color(0xFF4AC8EA)
+                            ],
+                            begin: Alignment(0.0, -1.0),
+                            end: Alignment(0.0, 1.0)),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Image(
+                        image: AssetImage(
+                          "assets/images/add_icon.png",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
