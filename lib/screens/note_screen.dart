@@ -1,3 +1,4 @@
+import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:what_todo/note_models/todo.dart';
 import 'package:what_todo/utils/todo_db.dart';
@@ -30,88 +31,154 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.9),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white.withOpacity(0.9),
-        title: const Text(
-          "Notes",
-          style: TextStyle(color: Colors.black),
-        ),
-        leading: MenuWidget(),
-      ),
-      body: StreamBuilder(
-        stream: _todoStorage.all(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              if (snapshot.data == null) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              final todo = snapshot.data as List<Todo>;
-              return Container(
-                color: Colors.white.withOpacity(0.9),
+      // backgroundColor: Colors.white.withOpacity(0.9),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.white.withOpacity(0.9),
+      //   title: const Text(
+      //     "Notes",
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      //   leading: MenuWidget(),
+      // ),
+      body: SizedBox(
+        width: double.maxFinite,
+        height: double.maxFinite,
+        child: Stack(
+          children: [
+            Positioned(
+              child: Container(
+                width: double.maxFinite,
+                height: 200,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                        'assets/images/Hand drawn Colorful Design Facebook Cover.png'),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 20,
+              top: 50,
+              child: Row(
+                children: [
+                  MenuWidget(),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 150,
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                width: MediaQuery.of(context).size.width,
+                height: 1000,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30),
+                  ),
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ComposeWidget(
-                      onCompose: (title, description) async {
-                        await _todoStorage.create(title, description);
-                      },
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: todo.length,
-                        itemBuilder: (context, index) {
-                          final todos = todo[index];
-                          return Column(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(10),
-                                color: Colors.grey.withOpacity(0.1),
-                                child: ListTile(
-                                  onTap: () async {
-                                    final editedTodo =
-                                        await showUpdateDialog(context, todos);
-                                    if (editedTodo != null) {
-                                      await _todoStorage.update(editedTodo);
-                                    }
+                    StreamBuilder(
+                      stream: _todoStorage.all(),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.active:
+                          case ConnectionState.waiting:
+                            if (snapshot.data == null) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            final todo = snapshot.data as List<Todo>;
+                            return Column(
+                              children: [
+                                ComposeWidget(
+                                  onCompose: (title, description) async {
+                                    await _todoStorage.create(
+                                        title, description);
                                   },
-                                  title: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(todos.title)),
-                                  subtitle: Text(todos.description),
-                                  trailing: TextButton(
-                                    onPressed: () async {
-                                      final shouldDelete =
-                                          await showDeleteDialog(context);
-                                      if (shouldDelete) {
-                                        await _todoStorage.delete(todos);
-                                      }
+                                ),
+                                SizedBox(height: 5),
+                                Container(
+                                  height: 500,
+                                  width: 500,
+                                  child: ListView.builder(
+                                    itemCount: todo.length,
+                                    itemBuilder: (context, index) {
+                                      final todos = todo[index];
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 20, right: 5),
+                                            child: ClayContainer(
+                                              emboss: false,
+                                              color: Colors.amber[200],
+                                              depth: 100,
+                                              spread: 5,
+                                              borderRadius: 20,
+                                              child: ListTile(
+                                                onTap: () async {
+                                                  final editedTodo =
+                                                      await showUpdateDialog(
+                                                          context, todos);
+                                                  if (editedTodo != null) {
+                                                    await _todoStorage
+                                                        .update(editedTodo);
+                                                  }
+                                                },
+                                                title: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Text(todos.title)),
+                                                subtitle:
+                                                    Text(todos.description),
+                                                trailing: TextButton(
+                                                  onPressed: () async {
+                                                    final shouldDelete =
+                                                        await showDeleteDialog(
+                                                            context);
+                                                    if (shouldDelete) {
+                                                      await _todoStorage
+                                                          .delete(todos);
+                                                    }
+                                                  },
+                                                  child: const Icon(
+                                                    Icons
+                                                        .disabled_by_default_rounded,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
                                     },
-                                    child: const Icon(
-                                      Icons.disabled_by_default_rounded,
-                                      color: Colors.red,
-                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                              ],
+                            );
+                          default:
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                        }
+                      },
                     ),
                   ],
                 ),
-              );
-            default:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-          }
-        },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

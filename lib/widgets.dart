@@ -11,7 +11,7 @@ class TaskCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 5, right: 5),
       margin: EdgeInsets.only(
         bottom: 20.0,
       ),
@@ -28,7 +28,7 @@ class TaskCardWidget extends StatelessWidget {
         // customBorderRadius: BorderRadius.only(
         //     topRight: Radius.elliptical(150, 150),
         //     bottomLeft: Radius.circular(50)),
-        depth: 200,
+        depth: 100,
         spread: 5,
         borderRadius: 20,
         child: Container(

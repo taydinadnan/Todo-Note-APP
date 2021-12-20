@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:what_todo/db/database_helper.dart';
 import 'package:what_todo/screens/taskpage.dart';
 import 'package:what_todo/widgets.dart';
-import 'package:what_todo/widgets/loading_widget.dart';
 import 'package:what_todo/widgets/menu_widget.dart';
 
 class Homepage extends StatefulWidget {
